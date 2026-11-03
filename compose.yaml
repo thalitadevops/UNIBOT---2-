@@ -1,0 +1,20 @@
+services:
+  unibot:
+    build: .
+    ports: ["127.0.0.1:8000:8000"]
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in your shell or .env}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_MODEL: ${ANTHROPIC_MODEL:-}
+    volumes: ["unibot-data:/data"]
+    read_only: true
+    tmpfs: ["/tmp"]
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 100
+    mem_limit: 256m
+    cpus: 0.5
+volumes:
+  unibot-data:
